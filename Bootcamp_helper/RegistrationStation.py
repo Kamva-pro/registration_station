@@ -29,8 +29,6 @@ def correct_or_incorrect():
     return prompt
 
  
-
-
 def correct_details():
 
     """
@@ -40,9 +38,28 @@ def correct_details():
     * Location
     * Experience
     """
-
-    print('Username - Date - Location - Experience: 4 April - Johannesburg Physical - No prior experience')
-
+    
+    try:
+        username = input('Select username: ')
+        date = input('Enter date: ')
+        location = input('Enter location: ')
+        experience = input('Enter experience: ')
+    except EOFError:
+        pass
+    
+    new_str = f'{username} - {date} - {location} - {experience}'
+    print(f'Is this correct? (Y/n): Username - Date - Location - Experience: {new_str}')
+    
+    # file = get_file_contents()
+    
+    # with open(file, 'r') as f:
+    #     content = f.readlines()
+    
+    # # Find the line corresponding to the username
+    # for line in content:
+    #     if username in line:
+    #         with open(file, 'w') as f:
+    #             f.writelines(content)
 
 def get_file_contents():
 
@@ -59,19 +76,37 @@ def find_username(file_name):
     @return corresponding information for username
        """
     
+    """
+    loop through each element in the file line by line and check if the first element is 
+    equal to the username the user entered. If that is the case then extract the
+    rest of the elements into a string.
+    """
     while True:
+        # get the username
         username = input_user_name()
+        
+        #create an empty string to later store the info
         info = ''
+        
+        #read the data inside the file
         data = read_file(file_name)
-
-        for i in data:            
+        
+        #iterate through that data
+        for i in data:
+            # split the current element at each occurence of the string (' - ')            
             split = i.split(' - ')
+            
+            # check if the first element is equal to the username
             if username == split[0]:
+                #iterate through the rest of the elements and concatenate them into a string
                 for i in split[1:]:
                     info += i + ' - '
+                #remove the last 3 elements (' - ')
                 info = info[:-3]
                 print(info, end='')
                 return info
+            
+            #if the username is not found then print the following
         print('Please enter valid existing username')
         
    
